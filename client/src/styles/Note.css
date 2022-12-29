@@ -1,0 +1,89 @@
+.notes {
+  
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  max-width: 1500px;
+  display: grid;
+  grid-gap: 1.5rem;
+  grid-template-columns: repeat(3, minmax(360px, 1fr));
+  padding-top:40px;
+  padding-bottom: 10px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+@media screen and (max-width: 1200px) {
+  .notes {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+  }
+}
+@media screen and (max-width: 1000px) {
+  .notes {
+      grid-template-columns: repeat(1, minmax(300px, 1fr));
+  }
+}
+
+.note-container {
+  background: rgba(135, 207, 235, 0.471);
+  padding:10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.326);
+  border-radius: 30px;
+
+}
+
+.note__header {
+  font-size: 20px;
+  margin-bottom:15px;
+  font-weight: 800;
+
+}
+
+.note__body {
+  background-color: #4b15893f;
+  position: relative;
+  width: 100%;
+  padding-top:40px;
+  padding-bottom:30px;
+  font-weight: 500;
+}
+
+
+
+
+.note__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.note textarea {
+  background-color: transparent;
+  border: none;
+}
+
+.note textarea:focus {
+  outline: none;
+}
+.note textarea::placeholder {
+  color: darkcyan
+}
+
+.note__save {
+  background: transparent;
+  transition: 0.1s ease-in-out;
+  border: 1.5px solid #fff;
+  border-radius: 10px;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
