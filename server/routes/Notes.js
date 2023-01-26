@@ -22,25 +22,31 @@ router.post("/", validateToken, async (req, res) => {
   res.json(note);
 });
 
-router.put("/title"),
-  validateToken,
+router.put("/:noteId"),
   async (req, res) => {
-    const { newTitle, id } = req.body;
-    await Notes.update({ title: newTitle }, { where: { id: id } });
-    res.json(newTitle);
+    const noteId = req.params;
+    console.log(noteId);
+    // const { newTitle, newText } = req.body;
+    const note = await Notes.findByPk(noteId);
+    console.log(note);
+    // if (!note) {
+    //   return res.status(404).json({ message: "Note not found" });
+    // } else {
+    //   await note.update(
+    //     {
+    //       title: newTitle,
+    //       text: newText,
+    //     },
+    //     {
+    //       where: { id: noteId },
+    //     }
+    //   );
+    // }
+    res.json(note);
   };
 
-router.put("/text"),
-  validateToken,
-  async (req, res) => {
-    const { newText, id } = req.body;
-    await Notes.update({ noteText: newText }, { where: { id: id } });
-    res.json(newText);
-  };
-
-router.delete("/:noteId", validateToken, async (req, res) => {
+router.delete("/:noteId", async (req, res) => {
   const noteId = req.params.noteId;
-
   await Notes.destroy({
     where: {
       id: noteId,
@@ -51,3 +57,19 @@ router.delete("/:noteId", validateToken, async (req, res) => {
 });
 
 module.exports = router;
+
+// router.put("/", validateToken, async (req, res) => {
+//   const { title, id } = req.body;
+//   // const noteId = req.params.noteId;
+//   await Notes.update(
+//     { title: title },
+//     {
+//       where: {
+//         id: noteId,
+//         title: newTitle,
+//         text: newText,
+//       },
+//     }
+//   );
+
+//   res.json("UPDATED SUCCESSFULLY")
