@@ -50,7 +50,6 @@ function Home() {
           </Link>
         )}
       </div>
-      {/* <div>{!changeLogin ? <Login /> : <Registration />}</div> */}
     </div>
   );
 }

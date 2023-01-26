@@ -6,7 +6,6 @@ import {
   AiFillGithub,
 } from "react-icons/ai";
 import michael from "../images/michael.jpeg";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import BasicExample from "./Navbar";
 

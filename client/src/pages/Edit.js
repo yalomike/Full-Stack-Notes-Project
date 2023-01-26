@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import BasicExample from "./Navbar";
 import { AuthContext } from "../helpers/AuthContext";
 
@@ -17,82 +17,43 @@ const Edit = () => {
     });
   }, []);
 
-  //   useEffect(() => {
-  //     axios
-  //       .put(
-  //         `http://localhost:3001/notes/${id}`,
-  //         {
-  //           headers: { accessToken: localStorage.getItem("accessToken") },
-  //         },
-  //         { data: { id: id, newTitle: form.title, newText: form.text } }
-  //       )
-  //       .then((response) => {
-  //         setForm(response.data);
-  //       });
-  //   }, []);
-
-  //   const editPost = (e) => {
-  //     e.preventDefault();
-  //     setForm();
-  //   };
-
   const handleChange = (event) => {
     const { value, name } = event.target;
     setForm({ ...form, [name]: value });
   };
 
-  //   let navigate = useNavigate();
-
-  //   useEffect(() => {
-  //     async function editPost(e) {
-  //       e.preventDefault();
-  //       const response = await axios({
-  //         method: "put",
-  //         url: `http://localhost:3001/notes/${id}`,
-  //         headers: {
-  //           accessToken: localStorage.getItem("accessToken"),
-  //         },
-  //         data: { id: id, newTitle: form.title, newText: form.text },
-  //       });
-  //       response.then((data) => {
-  //         setForm(data);
-  //       });
-  //     }
-  //   }, []);
-
-  //   useEffect(() => {
-  //     const response = await axios({
-  //         method: "put",
-  //         url: `http://localhost:3001/notes/${id}`,
-  //         headers: {
-  //           accessToken: localStorage.getItem("accessToken"),
-  //         },
-  //         data: { id: id, newTitle: form.title, newText: form.text },
-  //       });
-  //       setForm(response.data);
-  //     }
-
-  //   },[]);
-
-  //   async function editPost(e) {
-  //     e.preventDefault();
-
-  async function editPost() {
-    const newNoteTitle = {
-      method: "PUT",
+  const updateNote = async (e) => {
+    e.preventDefault();
+    const response = await axios({
+      method: "put",
+      url: `http://localhost:3001/notes/${id}`,
       headers: {
         accessToken: localStorage.getItem("accessToken"),
-        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id: id, newTitle: form.title }),
-    };
-    const response = await fetch(
-      "http://localhost:3001/notes/title",
-      newNoteTitle
-    );
-    const data = await response.json();
-    setListOfNotes(data.id);
-  }
+      body: JSON.stringify({
+        newTitle: form.title,
+        newText: form.text,
+      }),
+    });
+    console.log(response);
+  };
+
+  // console.log(form);
+
+  // const editPost = () => {
+  //   axios.put(
+  //     "http://localhost:3001/notes/title",
+  //     {
+  //       id: id,
+  //     },
+  //     {
+  //       headers: {
+  //         accessToken: localStorage.getItem("accessToken"),
+  //       },
+  //     }
+  //   );
+  //   setListOfNotes({ ...listOfNotes });
+  // };
 
   return (
     <>
@@ -104,7 +65,7 @@ const Edit = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="containerNotes">
-              <form onSubmit={editPost} className="note">
+              <form onSubmit={updateNote} className="note">
                 <label className="label d-flex text-black">
                   Modify the title:
                 </label>
@@ -227,3 +188,58 @@ export default Edit;
 //       }
 //     };
 //   }, []);
+
+//   useEffect(() => {
+//     axios
+//       .put(
+//         `http://localhost:3001/notes/${id}`,
+//         {
+//           headers: { accessToken: localStorage.getItem("accessToken") },
+//         },
+//         { data: { id: id, newTitle: form.title, newText: form.text } }
+//       )
+//       .then((response) => {
+//         setForm(response.data);
+//       });
+//   }, []);
+
+//   const editPost = (e) => {
+//     e.preventDefault();
+//     setForm();
+//   };
+
+//   let navigate = useNavigate();
+
+//   useEffect(() => {
+//     async function editPost(e) {
+//       e.preventDefault();
+//       const response = await axios({
+//         method: "put",
+//         url: `http://localhost:3001/notes/${id}`,
+//         headers: {
+//           accessToken: localStorage.getItem("accessToken"),
+//         },
+//         data: { id: id, newTitle: form.title, newText: form.text },
+//       });
+//       response.then((data) => {
+//         setForm(data);
+//       });
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     const response = await axios({
+//         method: "put",
+//         url: `http://localhost:3001/notes/${id}`,
+//         headers: {
+//           accessToken: localStorage.getItem("accessToken"),
+//         },
+//         data: { id: id, newTitle: form.title, newText: form.text },
+//       });
+//       setForm(response.data);
+//     }
+
+//   },[]);
+
+//   async function editPost(e) {
+//     e.preventDefault();

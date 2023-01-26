@@ -1,18 +1,42 @@
-import { React, useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../styles/Note.css";
-import { Link } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../helpers/AuthContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
 import Navbar from "./Navbar";
-import Edit from "./Edit";
+// import Edit from "./Edit";
 
 function Notes() {
   const [listOfNotes, setListOfNotes] = useState([]);
-  const { authState } = useContext(AuthContext);
+  const [authState, setAuthState] = useState({
+    username: "",
+    id: 0,
+    status: false,
+  });
 
   let navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getAuth = async () => {
+      const response = await axios.get("http://localhost:3001/auth/auth", {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      });
+
+      if (response.data.error) {
+        setAuthState({ ...authState, status: false });
+      } else {
+        setAuthState({
+          username: response.data.username,
+          id: response.data.id,
+          status: true,
+        });
+      }
+    };
+    getAuth();
+  }, []);
 
   useEffect(() => {
     axios.get("http://localhost:3001/notes").then((response) => {
@@ -20,53 +44,23 @@ function Notes() {
     });
   }, []);
 
-  const deleteNote = (id) => {
-    axios
-      .delete(`http://localhost:3001/notes/${id}`, {
-        headers: {
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      })
-      .then(() => {
-        navigate("/userprofile");
-      });
+  const deleteNote = async (id) => {
+    const response = await axios({
+      method: "delete",
+      url: `http://localhost:3001/notes/${id}`,
+      headers: {
+        accessToken: localStorage.getItem("accessToken"),
+      },
+    });
+    console.log(response.data);
+    navigate("/userprofile");
   };
 
-  // const editPost = (option) => {
-  //   if (option === "title") {
-  //     let newNoteTitle = prompt("Enter new title:");
-  //     axios.put(
-  //       "http://localhost:3001/notes/title",
-  //       {
-  //         newTitle: newNoteTitle,
-  //         id: id,
-  //       },
-  //       {
-  //         headers: {
-  //           accessToken: localStorage.getItem("accessToken"),
-  //         },
-  //       }
-  //     );
-  //     setListOfNotes({ ...listOfNotes, title: newNoteTitle });
-  //   } else {
-  //     let newNoteText = prompt("Enter new text:");
-  //     axios.put(
-  //       "http://localhost:3001/notes/noteText",
-  //       {
-  //         newText: newNoteText,
-  //         id: id,
-  //       },
-  //       {
-  //         headers: {
-  //           accessToken: localStorage.getItem("accessToken"),
-  //         },
-  //       }
-  //     );
-  //     setListOfNotes({ ...listOfNotes, text: newNoteText });
-  //   }
+  // const deleteNote = (id) => {
+  //   axios.delete(`http://localhost:3001/notes/${id}`).then(() => {
+  //     console.log(id);
+  //   });
   // };
-
-  const { id } = useParams();
 
   return (
     <>
@@ -80,26 +74,23 @@ function Notes() {
               {listOfNotes.map((note, key) => {
                 return (
                   <div
-                    onClick={() => {
-                      navigate(`/notes/${note.id}`);
-                    }}
                     key={note.id}
                     className="note-container text-black mb-5 text-center "
                   >
                     <div
+                      onClick={() => {
+                        navigate(`/notes/${note.id}`);
+                      }}
                       className="note__header"
-                      // onClick={() => {
-                      //   editPost("title");
-                      // }}
                     >
                       {note.title}
                     </div>
 
                     <div
+                      onClick={() => {
+                        navigate(`/notes/${note.id}`);
+                      }}
                       className="body note__body"
-                      // onClick={() => {
-                      //   editPost("body");
-                      // }}
                     >
                       {note.text}
                     </div>
@@ -107,17 +98,17 @@ function Notes() {
                     <div className="note__footer">
                       <h6>{note.username}</h6>
                       <h6>#:{note.id}</h6>
+                      {authState.username === note.username && (
+                        <button
+                          className="btn btn-primary ps-4 pe-4 "
+                          onClick={() => {
+                            deleteNote(note.id);
+                          }}
+                        >
+                          X
+                        </button>
+                      )}
                     </div>
-                    {/* {authState.username === listOfNotes.username && ( */}
-                    <button
-                      className="btn btn-primary ps-4 pe-4 w-25"
-                      onClick={() => {
-                        deleteNote(note.id);
-                      }}
-                    >
-                      X
-                    </button>
-                    {/* )} */}
                   </div>
                 );
               })}
