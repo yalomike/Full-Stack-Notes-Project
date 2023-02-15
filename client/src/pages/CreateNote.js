@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BasicExample from "./Navbar";
-import noteImage from "../images/—Pngtree—sticky note cartoon illustration_4597882.png";
-import backgrounImage1 from "../images/y2017-06-04-05_generated.jpg";
 
 function CreateNote() {
   const [form, setForm] = useState({ title: "", text: "" });

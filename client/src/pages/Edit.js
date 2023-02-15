@@ -1,13 +1,11 @@
-import { React, useState, useEffect, useContext } from "react";
+import { React, useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import BasicExample from "./Navbar";
-import { AuthContext } from "../helpers/AuthContext";
 
 const Edit = () => {
   const [form, setForm] = useState({ title: "", text: "" });
   const [listOfNotes, setListOfNotes] = useState([]);
-  const { authState } = useContext(AuthContext);
 
   const { id } = useParams();
   let navigate = useNavigate();
@@ -16,7 +14,7 @@ const Edit = () => {
     axios.get(`http://localhost:3001/notes/${id}`).then((response) => {
       setListOfNotes(response.data);
     });
-  }, []);
+  });
 
   const handleChange = (event) => {
     const { value, name } = event.target;

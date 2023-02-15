@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Note.css";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "./Navbar";
 
@@ -14,7 +14,6 @@ function Notes() {
   });
 
   let navigate = useNavigate();
-  const { id } = useParams();
 
   useEffect(() => {
     const getAuth = async () => {
@@ -35,7 +34,7 @@ function Notes() {
       }
     };
     getAuth();
-  }, []);
+  }, [authState]);
 
   useEffect(() => {
     axios

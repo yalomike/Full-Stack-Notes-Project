@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import background1 from "../images/cody-scott-milewski-3j4AG5-VQVs-unsplash.jpg";
-import background2 from "../images/eric-barrett-kU9oLfenU3Y-unsplash.jpg";
-import background3 from "../images/casey-horner-1sim8ojvCbE-unsplash.jpg";
 import { Link } from "react-router-dom";
 import Login from "./Login";
 

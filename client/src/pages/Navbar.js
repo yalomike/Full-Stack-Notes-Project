@@ -17,6 +17,7 @@ function BasicExample() {
       id: 0,
       status: false,
     });
+    authState();
   };
 
   return (
