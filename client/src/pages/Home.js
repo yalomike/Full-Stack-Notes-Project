@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import background from "../images/1.jpg";
+import background1 from "../images/cody-scott-milewski-3j4AG5-VQVs-unsplash.jpg";
+import background2 from "../images/eric-barrett-kU9oLfenU3Y-unsplash.jpg";
+import background3 from "../images/casey-horner-1sim8ojvCbE-unsplash.jpg";
 import { Link } from "react-router-dom";
+import Login from "./Login";
 
 function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState("");
   const [authState, setAuthState] = useState({
     username: "",
     id: 0,
@@ -12,7 +14,6 @@ function Home() {
 
   const logout = () => {
     window.localStorage.removeItem("accessToken");
-    window.localStorage.removeItem("isLoggedIn");
     setAuthState({
       username: "",
       id: 0,
@@ -21,34 +22,80 @@ function Home() {
   };
 
   return (
-    <div className="container">
-      <div className="boxIntro">
-        <img
-          className="bg-image img-fluid"
-          src={background}
-          alt="background "
-        />
-        {!authState.status ? (
-          <>
-            <Link to="/login">
-              <button className="btnCont">
-                <div className="loginText text-black h4">Log in</div>
-              </button>
-            </Link>
+    <div className="container bg-white">
+      <div className="row">
+        <div className="col-6 ">
+          <div
+            id="carouselExampleIndicators"
+            className="carousel slide"
+            data-ride="carousel"
+          >
+            <ol className="carousel-indicators">
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="0"
+                className="active"
+              ></li>
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="1"
+              ></li>
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="2"
+              ></li>
+            </ol>
+            <div className="carousel-inner">
+              <div className="carousel-item active d-none d-sm-block">
+                <img
+                  className="d-flex w-100"
+                  src={background1}
+                  alt="First slide"
+                />
+              </div>
+            </div>
+            <a
+              className="carousel-control-prev"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="prev"
+            >
+              <span
+                className="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a
+              className="carousel-control-next"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="next"
+            >
+              <span
+                className="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
 
-            <Link to="/registration">
-              <button className="btnCont2">
-                <div className="signinText text-black h4">Sign in</div>
-              </button>
-            </Link>
-          </>
-        ) : (
-          <Link to="/">
-            <button className="logoutBtn btn btn-primary" onClick={logout}>
-              Log out
-            </button>
-          </Link>
-        )}
+        <div className="row d-flex justify-content-end position-absolute">
+          <div className="col-6">
+            {!authState.status ? (
+              <>
+                <Login />
+              </>
+            ) : (
+              <Link to="/">
+                <button className="logoutBtn btn btn-primary" onClick={logout}>
+                  Log out
+                </button>
+              </Link>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Note.css";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
 import Navbar from "./Navbar";
-// import Edit from "./Edit";
 
 function Notes() {
   const [listOfNotes, setListOfNotes] = useState([]);
@@ -39,9 +38,15 @@ function Notes() {
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/notes").then((response) => {
-      setListOfNotes(response.data);
-    });
+    axios
+      .get("http://localhost:3001/notes", {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        setListOfNotes(response.data);
+      });
   }, []);
 
   const deleteNote = async (id) => {
@@ -52,30 +57,30 @@ function Notes() {
         accessToken: localStorage.getItem("accessToken"),
       },
     });
-    console.log(response.data);
     navigate("/userprofile");
+    return response;
   };
-
-  // const deleteNote = (id) => {
-  //   axios.delete(`http://localhost:3001/notes/${id}`).then(() => {
-  //     console.log(id);
-  //   });
-  // };
 
   return (
     <>
       <div>
         <Navbar />
       </div>
+
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12 col-md-6">
-            <div className="notes mt-5 pt-5">
+        <div className="row ms-1">
+          <div className="col-lg-12 col-md-6 pt-5">
+            <h1 className="text-center pt-4 ms-5">
+              <strong className="text-decoration-underline d-none d-sm-block">
+                NOTES
+              </strong>
+            </h1>
+            <div className="notes">
               {listOfNotes.map((note, key) => {
                 return (
                   <div
                     key={note.id}
-                    className="note-container text-black mb-5 text-center "
+                    className="note-container text-white text-center "
                   >
                     <div
                       onClick={() => {
@@ -90,17 +95,18 @@ function Notes() {
                       onClick={() => {
                         navigate(`/notes/${note.id}`);
                       }}
-                      className="body note__body"
+                      className="body text-black note__body"
                     >
                       {note.text}
                     </div>
 
                     <div className="note__footer">
-                      <h6>{note.username}</h6>
+                      <h6>{note.username} </h6>
                       <h6>#:{note.id}</h6>
+
                       {authState.username === note.username && (
                         <button
-                          className="btn btn-primary ps-4 pe-4 "
+                          className="btn btn-light ps-4 pe-4 "
                           onClick={() => {
                             deleteNote(note.id);
                           }}
@@ -112,6 +118,7 @@ function Notes() {
                   </div>
                 );
               })}
+
               <br />
             </div>
           </div>

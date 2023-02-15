@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BasicExample from "./Navbar";
+import noteImage from "../images/—Pngtree—sticky note cartoon illustration_4597882.png";
+import backgrounImage1 from "../images/y2017-06-04-05_generated.jpg";
 
 function CreateNote() {
   const [form, setForm] = useState({ title: "", text: "" });
@@ -18,6 +20,7 @@ function CreateNote() {
       },
       data: form,
     });
+
     console.log(response);
     navigate("/userprofile");
   };
@@ -41,11 +44,17 @@ function CreateNote() {
       </div>
       <div className="container">
         <div className="row">
-          <div className="col-lg-12">
-            <div className="containerNotes">
+          <div className="col-lg-12 col-sm-6">
+            <div className="createNote">
               <form onSubmit={onSubmit} className="note">
-                <label className="label d-flex text-black">Title:</label>
+                <h2 className="text-dark text-center">Create a New Note</h2>
+                <p className="text-dark text-center">
+                  Feel free to write down anything you want.
+                </p>
+
+                <label className="label d-flex text-black mt-4">Title:</label>
                 <textarea
+                  className="inputNote border border-2"
                   cols="50"
                   rows="1"
                   placeholder="Type your title here...."
@@ -55,15 +64,14 @@ function CreateNote() {
                   name="title"
                 ></textarea>
 
-                <div className="createnote__footer"></div>
-
                 <hr />
 
-                <label className="label mb-3 text-black ">Note Comment:</label>
+                <label className="label mb-3 text-black">Note Comment:</label>
 
                 <div>
                   <textarea
-                    cols="67"
+                    className="inputNote border border-2 mb-4"
+                    cols="34"
                     rows="5"
                     placeholder="Type your note here...."
                     maxLength="100"
@@ -72,13 +80,27 @@ function CreateNote() {
                     name="text"
                   ></textarea>
 
-                  <div className="createnote__footer">
-                    <button type="submit" className="note__save">
-                      Create
-                    </button>
-                    <Link className="note__save" to="/userprofile">
-                      Home
-                    </Link>
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-6">
+                        <button
+                          type="submit"
+                          className="btnCreateNote btn btn-outline-dark w-100"
+                        >
+                          Create
+                        </button>
+                      </div>
+                      <div className="col-6">
+                        <div>
+                          <Link
+                            className="btnCreateNote btn btn-outline-dark position-absolute w-100"
+                            to="/userprofile"
+                          >
+                            Home
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </form>
@@ -91,48 +113,3 @@ function CreateNote() {
 }
 
 export default CreateNote;
-
-// <Formik
-//   onSubmit={(event) => {
-//     event.preventDefault();
-//   }}
-// >
-//   <Form className="noteArea w-75">
-//     <ErrorMessage name="name" component="span" />
-//     <Field
-//       className="inputTitle "
-//       type="text"
-//       id="title"
-//       name="title"
-//       placeholder="Ex. Michael..."
-//       onChange={handleChange}
-//     />
-
-//     <label className="text-title row text-black text-uppercase position-relative ">
-//       Note Comments
-//     </label>
-//     <ErrorMessage name="comments" component="span" />
-//     <textarea
-//       onChange={handleChange}
-//       name="comments"
-//       id=""
-//       cols="30"
-//       rows="4"
-//     ></textarea>
-
-//     <div>
-//       <button
-//         className="btnRegister btn btn-primary fs-6 text-uppercase pt-3 pb-3 ps-5 pe-5 mt-5"
-//         type="submit"
-//       >
-//         Create
-//       </button>
-//       <br />
-//       <div className="homeLabel">
-//         <Link className="text-primary h6" to="/userprofile">
-//           Home
-//         </Link>
-//       </div>
-//     </div>
-//   </Form>
-// </Formik>

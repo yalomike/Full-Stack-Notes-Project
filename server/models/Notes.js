@@ -14,5 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  Notes.associate = (models) => {
+    Notes.belongsTo(models.Users, {
+      onDelete: "cascade",
+    });
+  };
+
   return Notes;
 };

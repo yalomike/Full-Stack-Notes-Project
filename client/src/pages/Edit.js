@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import BasicExample from "./Navbar";
 import { AuthContext } from "../helpers/AuthContext";
 
@@ -10,6 +10,7 @@ const Edit = () => {
   const { authState } = useContext(AuthContext);
 
   const { id } = useParams();
+  let navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`http://localhost:3001/notes/${id}`).then((response) => {
@@ -28,17 +29,17 @@ const Edit = () => {
       method: "put",
       url: `http://localhost:3001/notes/${id}`,
       headers: {
+        "Content-Type": "application/json",
         accessToken: localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify({
+      data: {
         newTitle: form.title,
         newText: form.text,
-      }),
+      },
     });
-    console.log(response);
+    navigate("/notes");
+    return response;
   };
-
-  // console.log(form);
 
   // const editPost = () => {
   //   axios.put(
@@ -63,13 +64,19 @@ const Edit = () => {
 
       <div className="container">
         <div className="row">
-          <div className="col-lg-12">
-            <div className="containerNotes">
+          <div className="col-lg-12 col-sm-6">
+            <div className="createNote">
               <form onSubmit={updateNote} className="note">
-                <label className="label d-flex text-black">
+                <h2 className="text-dark text-center">Modify the note</h2>
+                <p className="text-dark text-center">
+                  Replace anything you want.
+                </p>
+
+                <label className="label d-flex text-black mt-4">
                   Modify the title:
                 </label>
                 <textarea
+                  className="border border-2"
                   cols="50"
                   rows="1"
                   placeholder={listOfNotes.title}
@@ -90,7 +97,8 @@ const Edit = () => {
 
                 <div>
                   <textarea
-                    cols="67"
+                    className="border border-2 mb-4"
+                    cols="34"
                     rows="5"
                     placeholder={listOfNotes.text}
                     maxLength="100"
@@ -99,13 +107,27 @@ const Edit = () => {
                     name="text"
                   ></textarea>
 
-                  <div className="createnote__footer">
-                    <button type="submit" className="note__save">
-                      Save Changes
-                    </button>
-                    <Link className="note__save" to="/userprofile">
-                      Home
-                    </Link>
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-6">
+                        <button
+                          type="submit"
+                          className="btnCreateNote btn btn-outline-dark w-100"
+                        >
+                          Create
+                        </button>
+                      </div>
+                      <div className="col-6">
+                        <div>
+                          <Link
+                            className="btnCreateNote btn btn-outline-dark position-absolute w-100"
+                            to="/userprofile"
+                          >
+                            Home
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </form>
@@ -118,128 +140,3 @@ const Edit = () => {
 };
 
 export default Edit;
-
-//   <div className="postPage mt-5 pt-5">
-//   <div className="individual">
-//     <div className="leftSide">
-//       <div
-//         className="title"
-//         onClick={() => {
-//           if (authState.username === listOfNotes.username) {
-//             editPost("title");
-//           }
-//         }}
-//       >
-//         {listOfNotes.title}
-//       </div>
-//       <div
-//         className="body"
-//         onClick={() => {
-//           if (authState.username === listOfNotes.username) {
-//             editPost("body");
-//           }
-//         }}
-//       >
-//         {listOfNotes.text}
-//       </div>
-//       <div className="footer">
-//         {listOfNotes.username}
-//         {authState.username === listOfNotes.username && (
-//           <button>Delete Post</button>
-//         )}
-//       </div>
-//     </div>
-//   </div>
-// </div>
-
-//   useEffect(() => {
-//     const editPost = (option) => {
-//       if (option === "title") {
-//         const newNoteTitle = form;
-
-//         axios.put(
-//           "http://localhost:3001/notes/title",
-//           {
-//             newTitle: newNoteTitle,
-//             id: id,
-//           },
-//           {
-//             headers: {
-//               accessToken: localStorage.getItem("accessToken"),
-//             },
-//           }
-//         );
-//         setListOfNotes({ ...listOfNotes, title: newNoteTitle });
-//       } else {
-//         const newNoteText = form;
-//         axios.put(
-//           "http://localhost:3001/notes/text",
-//           {
-//             newText: newNoteText,
-//             id: id,
-//           },
-//           {
-//             headers: {
-//               accessToken: localStorage.getItem("accessToken"),
-//             },
-//           }
-//         );
-//         setListOfNotes({ ...listOfNotes, title: newNoteText });
-//       }
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     axios
-//       .put(
-//         `http://localhost:3001/notes/${id}`,
-//         {
-//           headers: { accessToken: localStorage.getItem("accessToken") },
-//         },
-//         { data: { id: id, newTitle: form.title, newText: form.text } }
-//       )
-//       .then((response) => {
-//         setForm(response.data);
-//       });
-//   }, []);
-
-//   const editPost = (e) => {
-//     e.preventDefault();
-//     setForm();
-//   };
-
-//   let navigate = useNavigate();
-
-//   useEffect(() => {
-//     async function editPost(e) {
-//       e.preventDefault();
-//       const response = await axios({
-//         method: "put",
-//         url: `http://localhost:3001/notes/${id}`,
-//         headers: {
-//           accessToken: localStorage.getItem("accessToken"),
-//         },
-//         data: { id: id, newTitle: form.title, newText: form.text },
-//       });
-//       response.then((data) => {
-//         setForm(data);
-//       });
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     const response = await axios({
-//         method: "put",
-//         url: `http://localhost:3001/notes/${id}`,
-//         headers: {
-//           accessToken: localStorage.getItem("accessToken"),
-//         },
-//         data: { id: id, newTitle: form.title, newText: form.text },
-//       });
-//       setForm(response.data);
-//     }
-
-//   },[]);
-
-//   async function editPost(e) {
-//     e.preventDefault();

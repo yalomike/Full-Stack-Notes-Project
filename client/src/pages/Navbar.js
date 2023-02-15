@@ -20,35 +20,44 @@ function BasicExample() {
   };
 
   return (
-    <Navbar bg="primary" expand="sm" fixed="top">
-      <div className="ms-4">
-        <Navbar.Brand className="text-white fs-5" href="#home">
-          NotesApp
-        </Navbar.Brand>
-      </div>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+    <>
+      <Navbar bg="black" expand="sm" fixed="top">
         <div className="ms-4">
-          <Nav>
-            <Nav.Link className="text-white" href="/userprofile">
-              Home
-            </Nav.Link>
-            <Nav.Link className="text-white " href="/notes">
-              Notes
-            </Nav.Link>
-            <Nav.Link className="text-white" href="/createnote">
-              + New Note
-            </Nav.Link>
-          </Nav>
+          <Navbar.Brand className="text-white fs-5" href="#home">
+            NotesApp
+          </Navbar.Brand>
         </div>
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className="bg-white me-3"
+        />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <div className="ms-4">
+            <Nav>
+              <Nav.Link className="text-white" href="/userprofile">
+                Home
+              </Nav.Link>
 
-        <Link to="/">
-          <button className="logoutBtn btn btn-outline-light" onClick={logout}>
-            Log out
-          </button>
-        </Link>
-      </Navbar.Collapse>
-    </Navbar>
+              <Nav.Link className="text-white" href="/createnote">
+                New Note
+              </Nav.Link>
+              <Nav.Link className="text-white" href="/userprofile">
+                About
+              </Nav.Link>
+            </Nav>
+          </div>
+
+          <Link to="/">
+            <button
+              className="logoutBtn btn btn-outline-light"
+              onClick={logout}
+            >
+              Log out
+            </button>
+          </Link>
+        </Navbar.Collapse>
+      </Navbar>
+    </>
   );
 }
 
